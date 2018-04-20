@@ -151,3 +151,58 @@ int getdetails()
      }
    return move_count;
  }
+
+
+// Function definition for making a move after a valid move has been selected
+void make_move(char board[][SIZE], int row, int col, char p1)
+  {
+     int rowco_ord = 0, colco_ord = 0;
+     int x = 0, y = 0;
+
+     // Identify opponent
+     char op = (p1 == P1.disk)? P2.disk : P1.disk;
+
+     board[row][col] = p1; // Place the p1 counter on the selected square
+
+     // Check all the squares around this square for the opponents counter
+     for(x = -1; x <= 1; x++)
+       for(y = -1; y <= 1; y++)
+         {
+           // Ignore squares off the board and the current square
+           if(row + x < 0 || row + x >= SIZE || col + y < 0 || col + y >= SIZE || (x==0 && y== 0))
+             continue;
+
+           // When the opponent's counter is found
+           if(board[row + x][col + y] == op)
+             {
+               rowco_ord = row + x; // Variables used to check surrounding squares
+               colco_ord = col + y;
+
+               while(1)
+                 {
+                   rowco_ord += x;           // Move to the
+                   colco_ord += y;           // next square
+
+                   // If we find the P1 counter then we change all the opponent counters
+                   // in between the two P1 counters
+                   if(board[rowco_ord][colco_ord] == p1)
+                     {
+                       while(board[rowco_ord -= x][colco_ord -= y] == op)
+                        {
+                          board[rowco_ord][colco_ord] = p1; // Change to P1 counter
+                        }
+                       break; // No more opponent counters to change
+                     }
+
+                   // Despite the selected move being a valid move
+                   // the below conditions are included to avoid bus errors
+                   // which are errors when the hardware tries to access invalid memory
+                   if(rowco_ord < 0 || rowco_ord >= SIZE || colco_ord < 0 || colco_ord >= SIZE)
+                     break;
+
+                   if(board[rowco_ord][colco_ord] == ' ')
+                     break;
+                 }
+             }
+         }
+  }
