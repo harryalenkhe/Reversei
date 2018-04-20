@@ -1,0 +1,38 @@
+My partner and I decided to use two text files to complete this assignment.
+First we created a header file in which we would have all the function definition that we would use in the program.
+Then we made a c file in which we called these functions to run the program. This resulted in a neat and tidy solution to the
+assignment brief which is clear and easy to understand.
+
+We split the workload as evenly as possible.
+
+For my part of the assignment I made the function definitions for:
+1.valid_moves
+2.player_move
+3.result
+
+
+The first function I created was the valid moves function, the goal for this function was to go through whole board and check each
+position to see if the position was a valid move for the player. I also had to make it write all the valid moves onto the screen in a nice
+fashion. Firstly I had to figure out who was the opponent. I then Initialized the moves array to all zeros. I then had to use nested for
+loops to figure out which positions were actual valid moves. I looked at the squares around each square to check for and opponents disk.
+If an opponents disk was found beside the player's disk we then checked in a straight line from that disk to see if there was a blank space
+If there was a blank space that space was now a valid move. If we were outside the array then the move was not valid, otherwise the position was
+saved in an array that held all the valid positions. The valid moves were stored in an array as double digits.
+After the valid moves were found I had to delete the duplicates that were found. Finally I printed the moves onto the screen.
+
+For the player_move function. I used a variable called count to control the turns of the Players.
+I had an if and else statement. The if statement being for p1's turn and the else statement being for p2's turn
+In both conditional statements I called the valid_moves function which printed the valid moves to the screen and
+I then included functionality to allow the user to choose from one of the valid moves
+After a valid move was chosen by the user I called the make_move function using the co-ordinates for that valid move as arguments
+I also had a variable called invalid_moves which kept count of the consecutive invalid moves
+If both players had no valid moves one after another then the game would end
+If a non valid move was picked then the user would be prompted to pick a valid move
+
+I also worked on the main file as this was the easiest part of the project
+After all the function definitions had been formulated and checked for errors.
+We simply called the get_details function
+then we had a while loop which ran the game using the display board function, the player_move function and the move_count was incremented
+The game was ended when all squares had been filled and there were no more valid moves
+I then inserted a final function call for the display board function and I also called the result function to print out the winner and the scores
+while also creating a .txt file that included the scores and the winners name
