@@ -59,3 +59,95 @@ int getdetails()
 
    return 0;
  }
+
+ // Function definition for finding valid moves and displaying the valid moves
+ // along with the options for the user to pick from
+ int valid_moves(char board[][SIZE], int valid_move_check[][SIZE], char p1, int valid[20])
+ {
+    int row = 0, col = 0;
+    int i = 0, j = 0, k = 0, x = 0, y = 0;
+    int move_count = 0;
+
+    // Set the opponent based on the current turn
+    char op = (p1 == P1.disk)? P2.disk : P1.disk;
+
+    // Initialize moves array to zero
+    for(row = 0; row < SIZE; row++)
+      for(col = 0; col < SIZE; col++)
+        valid_move_check[row][col] = 0;
+
+    // Check squares until P1 disk is found
+    for(row = 0; row < SIZE; row++)
+      for(col = 0; col < SIZE; col++)
+        {
+          if(board[row][col] == ' ')
+            continue;
+
+          if(board[row][col] == p1) // If we find a P1 disk
+           {
+             for(x = -1; x < 2; x++)
+               for(y = -1; y < 2; y++)
+                {
+                  // Ignore current square and outside of the array
+                  if(row + x < 0 || row + x >= SIZE || col + y < 0 || col + y >= SIZE ||(x == 0 && y == 0))
+                    continue; // Check the next square
+
+                  if(board[row + x][col + y] == op) // If opponent's disk is found
+                   {
+                     // New variables initalised to check for valid moves
+                     int rowco_ord = row + x;
+                     int colco_ord = col + y;
+                     while(1) // Always true so that the loop continues until we hit a break;
+                       {
+                         rowco_ord += x;  // Leapfrog the opponent's counter
+                         colco_ord += y;  // in a straight line
+
+                         // If we move outside the array then no valid move
+                         if(rowco_ord < 0 || rowco_ord >= SIZE || colco_ord < 0 || colco_ord >= SIZE)
+                          {
+                            break;
+                          }
+
+                         // If we find a blank square, we have a valid move
+                         else if(board[rowco_ord][colco_ord] == ' ')
+                          {
+                            // Store valid move as a double digit in the array
+                            valid[move_count] = (rowco_ord)*10 + (colco_ord);
+                            valid_move_check[rowco_ord][colco_ord] = 1;       // Mark as valid move
+                            move_count++;                                     // Increase valid moves count
+                            break;                                            // Continue checking squares
+                          }
+
+                         // If we find our own counter then no valid move
+                         else if(board[rowco_ord][colco_ord] == p1)
+                          {
+                            break;
+                          }
+                       }
+                   }
+                }
+           }
+        }
+
+   for(i = 0; i < move_count; i++) // Remove duplicate valid moves from the array
+        for(j = i+1; j < move_count; j++)
+         {
+            if(valid[i] == valid[j]) // If any duplicates are found
+             {
+               for(k=j; k<move_count; k++) // Delete the current duplicate element
+                {
+                  valid[k] = valid[k + 1];
+                }
+
+               move_count--; // Decrement size after removing duplicate element
+               j--; // If shifting of elements occur then don't increment j
+             }
+         }
+
+   printf("Valid moves -> ");
+   for(i = 0; i < move_count; i++) // Display the valid moves
+     {
+       printf("%d. (%d %c)  ",i+1 ,(valid[i]/10 + 1), (valid[i]%10 + 97));
+     }
+   return move_count;
+ }
