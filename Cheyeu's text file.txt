@@ -1,0 +1,23 @@
+For this assignment me and my partner created two files
+A reversi.h header file that contained the function definitions and a main file that called the functions and ran the reversi game
+
+We split the work as evenly as possible.
+
+For my part of the project , I worked on the function definitions for
+1. make_move
+2. getdetails
+3. Main file
+
+For the make_move function. I first identified the opponent based on the current turn.
+The function then places the p1 counter on the selected valid move that the user made.
+The function then uses the same algorithm from valid_moves and reverses it to find all the opponent counters that need to be changed. I reused the algorithm from the valid_moves function as it was easy to do this. I also included conditional statements as there were bus errors appearing when the function tried to access memory that was not available.
+
+For the getdetails function I took the code from assignment 2 and placed it into a function definition in the header file.
+The getdetails function prompts the user to enter their name and it assigns the disk type to the player based on if they are player1 or player2
+The name and disk type are assigned to the structs struct members that I created
+
+For the result function. The function calculates the final score by running a nested for loop over the board.
+This loop checks each square and increments the p1 or p2 score based on what disk type is in the square
+The scores are calculated and compared.
+The function includes conditional statements to decide the winner based on the scores.
+The function prints the two scores and the winning player's name while also including all this info in a created .txt file
