@@ -295,3 +295,58 @@ void make_move(char board[][SIZE], int row, int col, char p1)
         }
       return invalid_count;
     }
+
+
+// Function definition to count final score and display on screen and in created txt file
+int result(char board[][SIZE])
+ {
+   int p2_score = 0, p1_score = 0;
+
+   for(int row = 0; row < SIZE; row++)
+     for(int col = 0; col < SIZE; col++)
+       {
+         p1_score += board[row][col] == P1.disk; // If P1 counter add to P1_score
+         p2_score += board[row][col] == P2.disk; // If P1 counter add to P1_score
+       }
+   FILE *winner; // Open file
+
+   // Open the file for writing
+   winner = fopen("winner.txt", "wt");
+   if (!winner) // If file cannot be opened for some reason
+   {
+     printf("File could not be opened\n\a\a");
+     return 0;
+   }
+
+   else // If file can be opened
+     { // Store and print the winner details in a file and to a screen
+       puts("-------------------------------------------");
+       fprintf(winner,"The final score is:\n%s - %d\n%s - %d\n\n",P1.name, p1_score, P2.name, p2_score);
+       printf("The final score is:\n%s - %d\n%s - %d\n\n",P1.name, p1_score, P2.name, p2_score);
+
+       if(p2_score > p1_score) // If P2 wins
+        {
+          fprintf(winner,"%s wins!\n",P2.name);
+          printf("%s wins!\n",P2.name);
+        }
+       else if(p2_score < p1_score) // P1 wins
+        {
+          fprintf(winner,"%s wins!\n",P1.name);
+          printf("%s wins!\n",P1.name);
+        }
+       else // Draw
+        {
+          fprintf(winner,"It's a draw!\n");
+          printf("It's a draw!\n");
+        }
+
+       fprintf(winner,"\nThanks for playing\n");
+       printf("Thanks for playing\n");
+       puts("-------------------------------------------");
+     }
+   // Close the file
+   fclose(winner);
+
+   printf("Please check winner.txt for the results as well\n");
+   return 0;
+ }
