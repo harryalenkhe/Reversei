@@ -206,3 +206,92 @@ void make_move(char board[][SIZE], int row, int col, char p1)
              }
          }
   }
+
+  // Function definition for players taking turns and deciding their move
+  int player_move(char board[][SIZE], int valid_move_check[][SIZE], int valid[10], int count, int invalid_count, int move_count)
+    {
+      char y = 0; int x = 0;
+      char move = 0; int choice = 0;
+
+      if((count % 2) != 0) // P1's turn
+      {
+        puts("-------------------------------------------");
+        printf("%s's move.\n",P1.name);
+        if(valid_moves(board, valid_move_check, P1.disk,valid)) // Prints valid moves also
+          {
+            // Read p1 moves until a valid move is entered
+            while(1)
+              {
+                fflush(stdin);                // Flush the keyboard buffer
+                printf("\nPlease choose from one of the valid moves: ");
+                scanf("%d%*c",&choice);       // Choose from valid moves
+
+                // Valid moves are stored as a double digit numbers in indexes of array
+                x = valid[choice-1]/10;       // Assign row by dividing double digit number
+                y = valid[choice-1]%10;       // Assign column by getting remainder of division
+
+                if( (x>=0 && y>=0) && (x<SIZE && y<SIZE) && valid_move_check[x][y]) // If valid_move
+                {
+                  make_move(board, x, y, P1.disk);
+                  move_count++;                             // Increment move count
+                  break;
+                }
+
+                else
+                 {
+                   printf("Please pick a valid move from the options\n"); // When a non-valid move is entered
+                 }
+              }
+          }
+        else   // No valid moves
+          if(++invalid_count <= 2)
+          {
+            fflush(stdin); // flush input buffer
+            printf("\nNo valid moves on this turn. Press enter to pass ");
+            scanf("%c", &move); // When no valid moves left for player
+          }
+          else // When no more valid moves left for either players
+            printf("\nNo more squares left, GAME OVER\n");
+            puts("-------------------------------------------");
+       }
+
+       else if((count % 2) == 0) // P2's turn
+       {
+         puts("-------------------------------------------");
+         printf("%s's move.\n",P2.name);
+         if(valid_moves(board, valid_move_check, P2.disk,valid)) // Prints valid moves also
+         {
+           while(1)
+           {
+             fflush(stdin);              // Flush the keyboard buffer
+             printf("\nPlease choose from one of the valid moves: ");
+             scanf("%d%*c",&choice); // Choose from one of the valid moves
+
+             x = valid[choice-1]/10; // Assign row
+             y = valid[choice-1]%10; // Assign column
+
+             if( (x>=0 && y>=0) && (x<SIZE && y<SIZE) && valid_move_check[x][y])
+               {
+                 make_move(board, x, y, P2.disk);
+                 move_count++;              // Increment move count
+                 break;
+               }
+             else
+               printf("Please pick a valid move from the options\n");
+               puts("-------------------------------------------");
+           }
+         }
+         else                                // No valid moves
+           if(++invalid_count <= 2)
+           {
+             fflush(stdin);                  // Flush the keyboard buffer
+             printf("\nNo valid moves on this turn. Press enter to pass ");
+             scanf("%c", &move);            // Pass
+           }
+           else
+             printf("\nNo more squares left, GAME OVER\n");
+             puts("-------------------------------------------");
+             // End of game
+        }
+      return invalid_count;
+    }
