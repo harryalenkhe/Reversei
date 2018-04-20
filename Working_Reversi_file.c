@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <string.h>
-#include "Reversi components2.h" // Includes function definitions for game components
+#include "Reversi components.h" // Includes function definitions for game components
 
 #define SIZE 8 // Board size of 8x8
 
